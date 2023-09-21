@@ -1,9 +1,13 @@
 import React from 'react'
 
-function dashPage() {
+function DashPage() {
   return (
-    <div>Dash-page</div>
+    <>
+    <div className='ml-[500px]'>
+      <h1>Hola Mundo!</h1>
+    </div>
+    </>
   )
 }
 
-export default dashPage;
+export default DashPage;
