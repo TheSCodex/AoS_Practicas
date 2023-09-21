@@ -5,7 +5,7 @@ function DashPage() {
   return (
     <>
       <div className='flex'>
-        <div className='p-[128px]'>
+        <div>
           <NavBar />
         </div>
         <div>

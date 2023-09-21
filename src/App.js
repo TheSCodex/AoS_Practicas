@@ -26,7 +26,7 @@ function App() {
 
 function AppContent(){
   return(
-  <div className='flex justify-between'>
+  <div>
     <AppRoutes />
   </div>
   )
