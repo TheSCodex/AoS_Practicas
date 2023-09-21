@@ -1,7 +1,6 @@
 import { useRoutes, BrowserRouter as Router } from 'react-router-dom';
 
 //componentes
-import NavBar from "./components/nav-bar";
 
 
 //páginas
@@ -28,7 +27,6 @@ function App() {
 function AppContent(){
   return(
   <div className='flex justify-between'>
-    <NavBar />
     <AppRoutes />
   </div>
   )
