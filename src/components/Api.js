@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudRain, faSun } from "@fortawesome/free-solid-svg-icons";
-import { faCloud } from "@fortawesome/free-solid-svg-icons";
-import { faCloudSun } from "@fortawesome/free-solid-svg-icons";
-import { faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
+import { faCloudRain, faSun,faCloud, faCloudSun, faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
 function CondicionAtmosferica() {
   const url = "https://api.datos.gob.mx/v1/condiciones-atmosfericas";
   const estadosMx = [
