@@ -8,8 +8,9 @@ function DashPage() {
         <div>
           <NavBar />
         </div>
-        <div>
-          <h1>Hola Mundo!</h1>
+        <div className="bg-gradient-to-r from-purple-400 via-cyan-500 to-blue-500 h-screen w-screen flex flex-col justify-center items-center text-white">
+          <h1 className="text-5xl font-extrabold mb-4">Hola</h1>
+          <h2 className="text-3xl font-semibold">Mundo!</h2>
         </div>
       </div>
     </>
