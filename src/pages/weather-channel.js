@@ -2,6 +2,8 @@ import React from "react";
 import NavBar from "../components/nav-bar";
 import CondicionAtmosferica from "../components/Api";
 
+//HolaHolaHola
+
 const WeatherChannel = () => {
   return (
     <>
