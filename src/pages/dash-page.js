@@ -1,9 +1,19 @@
 import React from 'react'
+import NavBar from '../components/nav-bar';
 
-function dashPage() {
+function DashPage() {
   return (
-    <div>Dash-page</div>
+    <>
+      <div className='flex'>
+        <div>
+          <NavBar />
+        </div>
+        <div>
+          <h1>Hola Mundo!</h1>
+        </div>
+      </div>
+    </>
   )
 }
 
-export default dashPage;
+export default DashPage;
