@@ -79,7 +79,7 @@ function CondicionAtmosferica() {
         ))}
       </select> 
       </div> 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid border p-4 bg-white rounded-lg mt-[60px] overflow-y-auto max-h-[500px] grid-cols-3 gap-4">
         {datos.map((ciudad, index) => {
           if (ciudad.state === estadoActual) {
             return (
