@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCloudRain,
-  faSun,
-  faCloud,
-  faCloudSun,
-  faCloudShowersHeavy,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCloudRain, faSun,faCloud, faCloudSun, faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
+function quitarAcentos(texto) {
+    return texto
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+  
 function CondicionAtmosferica() {
-  const url =
-    "https://api.datos.gob.mx/v1/condiciones-atmosfericas?pageSize=5000";
+  const url = "https://api.datos.gob.mx/v1/condiciones-atmosfericas?pageSize=5000";
   const estadosMx = [
     { id: 1, name: "Aguascalientes" },
     { id: 2, name: "Baja California" },
@@ -25,8 +24,8 @@ function CondicionAtmosferica() {
     { id: 12, name: "Guerrero" },
     { id: 13, name: "Hidalgo" },
     { id: 14, name: "Jalisco" },
-    { id: 15, name: "Estado de Mexico" },
-    { id: 16, name: "Michoacan" },
+    { id: 15, name: "Estado de México" },
+    { id: 16, name: "Michoacán" },
     { id: 17, name: "Morelos" },
     { id: 18, name: "Nayarit" },
     { id: 19, name: "Nuevo Leon" },
@@ -34,7 +33,7 @@ function CondicionAtmosferica() {
     { id: 21, name: "Puebla" },
     { id: 22, name: "Queretaro" },
     { id: 23, name: "Quintana Roo" },
-    { id: 24, name: "San Luis Potosi" },
+    { id: 24, name: "San Luis Potosí"},
     { id: 25, name: "Sinaloa" },
     { id: 26, name: "Sonora" },
     { id: 27, name: "Tabasco" },
@@ -66,25 +65,21 @@ function CondicionAtmosferica() {
 
   return (
     <div className="relative">
-      <div className="flex flex-col items-center">
-        <h1 className="text-xl font-bold text-white mb-5">Estado del Tiempo</h1>
-        <div className="relative">
-          <div className="overflow-y-auto">
-            <select
-              className="block w-full bg-white border border-gray-300 rounded-lg mb-8 p-2"
-              onChange={(e) => setEstadoActual(e.target.value)}
-            >
-              <option value="">Selecciona una opción</option>
-              {estadosMx.map((opcion) => (
-                <option key={opcion.id} value={opcion.name}>
-                  {opcion.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
-      <div className="grid border p-4 w-full overflow-y-auto max-h-[500px] rounded-md bg-white grid-cols-4 gap-4">
+    <div className="flex flex-col items-center">
+    <h1 className="text-xl font-bold text-white mb-5">Estado del Tiempo</h1>
+      <select
+        className="block w-full bg-white border border-gray-300 rounded-lg p-2"
+        onChange={(e) => setEstadoActual(quitarAcentos(e.target.value))}
+      >
+        <option value="">Selecciona una opción</option>
+        {estadosMx.map((opcion) => (
+          <option key={opcion.id} value={opcion.name}>
+            {opcion.name}
+          </option>
+        ))}
+      </select> 
+      </div> 
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {datos.map((ciudad, index) => {
           if (ciudad.state === estadoActual) {
             return (
@@ -141,6 +136,22 @@ function CondicionAtmosferica() {
                   )}
                   {ciudad.skydescriptionlong.toLowerCase() ===
                     "tormentas dispersas" && (
+                    <FontAwesomeIcon
+                      icon={faCloudRain}
+                      beat
+                      className="ml-2 text-gray-600"
+                    />
+                  )}
+                  {ciudad.skydescriptionlong.toLowerCase() ===
+                    "aguaceros" && (
+                    <FontAwesomeIcon
+                      icon={faCloudRain}
+                      beat
+                      className="ml-2 text-gray-600"
+                    />
+                  )}
+                  {ciudad.skydescriptionlong.toLowerCase() ===
+                    "tormentas aisladas" && (
                     <FontAwesomeIcon
                       icon={faCloudRain}
                       beat
