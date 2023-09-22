@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudRain, faSun } from "@fortawesome/free-solid-svg-icons";
-import { faCloud } from "@fortawesome/free-solid-svg-icons";
-import { faCloudSun } from "@fortawesome/free-solid-svg-icons";
-import { faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
+import { faCloudRain, faSun,faCloud, faCloudSun, faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
 function CondicionAtmosferica() {
     const url = "https://api.datos.gob.mx/v1/condiciones-atmosfericas";
     const estadosMx = [
@@ -47,93 +44,100 @@ function CondicionAtmosferica() {
 
     const consultarDatos = () => {
         fetch(url)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return res.json();
-            })
-            .then((condicionAtm) => setDatos(condicionAtm.results))
-            .catch((error) => console.error("Error fetching data:", error));
-    };
-
-    useEffect(() => {
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return res.json();
+          })
+          .then((condicionAtm) => setDatos(condicionAtm.results))
+          .catch((error) => console.error("Error fetching data:", error));
+      };
+    
+      useEffect(() => {
         consultarDatos();
-    }, []);
-
-
-    return (
+      }, []);
+    
+      return (
         <div className="container mx-auto mt-5">
-            <select
-                className="block w-full bg-white border border-gray-300 rounded-lg p-2"
-                onChange={(e) => setEstadoActual(e.target.value)}
-            >
-                <option value="">Selecciona una opción</option>
-                {estadosMx.map((opcion) => (
-                    <option key={opcion.id} value={opcion.name}>
-                        {opcion.name}
-                    </option>
-                ))}
-            </select>
-            <h1 className="text-2xl font-semibold mt-4">Estado del Tiempo</h1>
-            {datos.map((ciudad, index) => {
-                if (ciudad.state === estadoActual) {
-                    return (
-                        <div
-                            key={index}
-                            className="mt-4 border border-gray-300 p-3 rounded-lg"
-                        >
-                            <p className="text-lg">
-                                {ciudad.name} - <i>{ciudad.skydescriptionlong}</i>
-                                {ciudad.skydescriptionlong.toLowerCase() === "soleado" && (
-                                    <FontAwesomeIcon
-                                        icon={faSun} spin
-                                        className="ml-2 text-yellow-500"
-                                    />
-                                )}
-                                {ciudad.skydescriptionlong.toLowerCase() === "mayormente soleado" && (
-                                    <FontAwesomeIcon
-                                        icon={faSun} spin
-                                        className="ml-2 text-orange-500" 
-                                    />
-                                )}
-                                {ciudad.skydescriptionlong.toLowerCase() === "nublado" && (
-                                    <FontAwesomeIcon
-                                        icon={faCloud} bounce
-                                        className="ml-2 text-gray-700" 
-                                    />
-                                )}
-                                {ciudad.skydescriptionlong.toLowerCase() === "mayormente nublado" && (
-                                    <FontAwesomeIcon
-                                        icon={faCloud} bounce
-                                        className="ml-2 text-gray-600" 
-                                    />
-                                )}
-                                {ciudad.skydescriptionlong.toLowerCase() === "parcialmente nublado" && (
-                                    <FontAwesomeIcon
-                                        icon={faCloudSun} beat
-                                        className="ml-2 text-gray-600" 
-                                    />
-                                )}
-                                {ciudad.skydescriptionlong.toLowerCase() === "tormentas" && (
-                                    <FontAwesomeIcon
-                                        icon={faCloudShowersHeavy} beat
-                                        className="ml-2 text-gray-600" 
-                                    />
-                                )}
-                                {ciudad.skydescriptionlong.toLowerCase() === "tormentas dispersas" && (
+          <select
+            className="block w-full bg-white border border-gray-300 rounded-lg p-2"
+            onChange={(e) => setEstadoActual(e.target.value)}
+          >
+            <option value="">Selecciona una opción</option>
+            {estadosMx.map((opcion) => (
+              <option key={opcion.id} value={opcion.name}>
+                {opcion.name}
+              </option>
+            ))}
+          </select>
+          <h1 className="text-2xl font-semibold mt-4">Estado del Tiempo</h1>
+          {datos.map((ciudad, index) => {
+            console.log("Ciudad:", ciudad); // Depuración
+            if (ciudad.state === estadoActual) {
+              return (
+                <div
+                  key={index}
+                  className="mt-4 border border-gray-300 p-3 rounded-lg"
+                >
+                  <p className="text-lg">
+                    {ciudad.name} - <i>{ciudad.skydescriptionlong}</i>
+                    {ciudad.skydescriptionlong.toLowerCase() === "soleado" && (
+                      <FontAwesomeIcon
+                        icon={faSun}
+                        spin
+                        className="ml-2 text-yellow-500"
+                      />
+                    )}
+                    {ciudad.skydescriptionlong.toLowerCase() === "mayormente soleado" && (
+                      <FontAwesomeIcon
+                        icon={faSun}
+                        spin
+                        className="ml-2 text-orange-500"
+                      />
+                    )}
+                    {ciudad.skydescriptionlong.toLowerCase() === "nublado" && (
+                      <FontAwesomeIcon
+                        icon={faCloud}
+                        bounce
+                        className="ml-2 text-gray-700"
+                      />
+                    )}
+                    {ciudad.skydescriptionlong.toLowerCase() === "mayormente nublado" && (
+                      <FontAwesomeIcon
+                        icon={faCloud}
+                        bounce
+                        className="ml-2 text-gray-600"
+                      />
+                    )}
+                    {ciudad.skydescriptionlong.toLowerCase() === "parcialmente nublado" && (
+                      <FontAwesomeIcon
+                        icon={faCloudSun}
+                        beat
+                        className="ml-2 text-gray-600"
+                      />
+                    )}
+                    {ciudad.skydescriptionlong.toLowerCase() === "tormentas" && (
+                      <FontAwesomeIcon
+                        icon={faCloudShowersHeavy}
+                        beat
+                        className="ml-2 text-gray-600"
+                      />
+                    )}
+                     {ciudad.skydescriptionlong.toLowerCase() === "tormentas dispersas" && (
                                     <FontAwesomeIcon
                                         icon={faCloudRain} beat
-                                        className="ml-2 text-gray-600" 
+                                        className="ml-2 text-gray-600"
                                     />
-                                )}
-                            </p>
-                        </div>
-                    );
-                }
-                return null;
-            })}
+                    )}
+                  </p>
+                </div>
+              );
+            }
+            return null;
+          })}
         </div>
-    );
-}
-export default CondicionAtmosferica;
+      );
+    }
+    
+    export default CondicionAtmosferica;
