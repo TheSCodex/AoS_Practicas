@@ -84,13 +84,13 @@ function CancunWeatherCard() {
     <div className="border m-4 h-60 bg-white rounded-md">
       {error ? (
         <div className="flex flex-col justify-center items-center p-4 font-semibold text-center">
-        <p className="mb-[60px] mt-2">{error}</p>
-        <FontAwesomeIcon
-          icon={faSatelliteDish}
-          className="text-6xl"
-          fade
-        />
-      </div>
+          <p className="mb-[60px] mt-2">{error}</p>
+          <FontAwesomeIcon
+            icon={faSatelliteDish}
+            className="text-6xl"
+            fade
+          />
+        </div>
       ) : (
         cancunData.map((ciudad, index) => (
           <div key={index}>
@@ -100,9 +100,8 @@ function CancunWeatherCard() {
             {weatherIcons[ciudad.skydescriptionlong.toLowerCase()] && (
               <FontAwesomeIcon
                 icon={weatherIcons[ciudad.skydescriptionlong.toLowerCase()]}
-                className={`weather-icon ${
-                  weatherIcons[ciudad.skydescriptionlong.toLowerCase()]
-                }`}
+                className={`weather-icon ${weatherIcons[ciudad.skydescriptionlong.toLowerCase()]
+                  }`}
               />
             )}
           </div>
