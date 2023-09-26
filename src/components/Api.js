@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudRain, faSun, faCloud, faCloudSun, faCloudShowersHeavy } from "@fortawesome/free-solid-svg-icons";
+import {
+    faCloudRain,
+    faSun,
+    faCloud,
+    faCloudSun,
+    faCloudShowersHeavy,
+} from "@fortawesome/free-solid-svg-icons";
+
 function quitarAcentos(texto) {
-    return texto
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
 function CondicionAtmosferica() {
@@ -31,7 +36,7 @@ function CondicionAtmosferica() {
         { id: 19, name: "Nuevo Leon" },
         { id: 20, name: "Oaxaca" },
         { id: 21, name: "Puebla" },
-        { id: 22, name: "Queretaro" },
+        { id: 22, name: "Querétaro" },
         { id: 23, name: "Quintana Roo" },
         { id: 24, name: "San Luis Potosí" },
         { id: 25, name: "Sinaloa" },
@@ -46,22 +51,41 @@ function CondicionAtmosferica() {
 
     const [datos, setDatos] = useState([]);
     const [estadoActual, setEstadoActual] = useState("Quintana Roo");
+    const [datosDisponibles, setDatosDisponibles] = useState(true);
+    const [isLoading, setIsLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
-    const consultarDatos = () => {
-        fetch(url)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return res.json();
-            })
-            .then((condicionAtm) => setDatos(condicionAtm.results))
-            .catch((error) => console.error("Error fetching data:", error));
-    };
 
     useEffect(() => {
-        consultarDatos();
-    }, []);
+        const consultarDatos = () => {
+            setIsLoading(true);
+            setError(null);
+            fetch(url)
+                .then((res) => {
+                    if (!res.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return res.json();
+                })
+                .then((condicionAtm) => {
+                    setDatos(condicionAtm.results);
+                    const datosParaEstadoActual = condicionAtm.results.some(
+                        (ciudad) => ciudad.state === estadoActual
+                    );
+                    setDatosDisponibles(datosParaEstadoActual);
+                })
+                .catch((error) => {
+                    console.error("Error fetching data:", error);
+                    setError(error);
+                    setDatosDisponibles(false);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        };
+
+        consultarDatos(); 
+    }, [estadoActual]);
 
     return (
         <div className="relative">
@@ -80,91 +104,104 @@ function CondicionAtmosferica() {
                 </select>
             </div>
             <div className="grid border p-4 bg-white rounded-lg mt-[60px] overflow-y-auto max-h-[500px] grid-cols-3 gap-4">
-                {datos.map((ciudad, index) => {
-                    console.log("Ciudad:", ciudad); // Depuración
-                    if (ciudad.state === estadoActual) {
-                        return (
-                            <div
-                                key={index}
-                                className="border border-gray-300 p-3 rounded-lg"
-                            >
-                                <p className="text-lg">
-                                    {ciudad.name} - <i>{ciudad.skydescriptionlong}</i>
-                                    {ciudad.skydescriptionlong.toLowerCase() === "soleado" && (
-                                        <FontAwesomeIcon
-                                            icon={faSun}
-                                            spin
-                                            className="ml-2 text-yellow-500"
-                                        />
-                                    )}
-                                    {ciudad.skydescriptionlong.toLowerCase() ===
-                                        "mayormente soleado" && (
+                {isLoading ? (
+                    // Mostrar mensaje de carga 
+                    <p>Cargando datos...</p>
+                ) : datosDisponibles ? (
+                    datos.map((ciudad, index) => {
+                        if (ciudad.state === estadoActual) {
+                            return (
+                                <div
+                                    key={index}
+                                    className="border border-gray-300 p-3 rounded-lg"
+                                >
+                                    <p className="text-lg">
+                                        {ciudad.name} - <i>{ciudad.skydescriptionlong}</i>
+                                        {ciudad.skydescriptionlong.toLowerCase() === "soleado" && (
                                             <FontAwesomeIcon
                                                 icon={faSun}
                                                 spin
-                                                className="ml-2 text-orange-500"
+                                                className="ml-2 text-yellow-500"
                                             />
                                         )}
-                                    {ciudad.skydescriptionlong.toLowerCase() === "nublado" && (
-                                        <FontAwesomeIcon
-                                            icon={faCloud}
-                                            bounce
-                                            className="ml-2 text-gray-700"
-                                        />
-                                    )}
-                                    {ciudad.skydescriptionlong.toLowerCase() ===
-                                        "mayormente nublado" && (
+                                        {ciudad.skydescriptionlong.toLowerCase() ===
+                                            "mayormente soleado" && (
+                                                <FontAwesomeIcon
+                                                    icon={faSun}
+                                                    spin
+                                                    className="ml-2 text-orange-500"
+                                                />
+                                            )}
+                                        {ciudad.skydescriptionlong.toLowerCase() === "nublado" && (
                                             <FontAwesomeIcon
                                                 icon={faCloud}
                                                 bounce
-                                                className="ml-2 text-gray-600"
+                                                className="ml-2 text-gray-700"
                                             />
                                         )}
-                                    {ciudad.skydescriptionlong.toLowerCase() ===
-                                        "parcialmente nublado" && (
+                                        {ciudad.skydescriptionlong.toLowerCase() ===
+                                            "mayormente nublado" && (
+                                                <FontAwesomeIcon
+                                                    icon={faCloud}
+                                                    bounce
+                                                    className="ml-2 text-gray-600"
+                                                />
+                                            )}
+                                        {ciudad.skydescriptionlong.toLowerCase() ===
+                                            "parcialmente nublado" && (
+                                                <FontAwesomeIcon
+                                                    icon={faCloudSun}
+                                                    beat
+                                                    className="ml-2 text-gray-600"
+                                                />
+                                            )}
+                                        {ciudad.skydescriptionlong.toLowerCase() === "tormentas" && (
                                             <FontAwesomeIcon
-                                                icon={faCloudSun}
+                                                icon={faCloudShowersHeavy}
                                                 beat
                                                 className="ml-2 text-gray-600"
                                             />
                                         )}
-                                    {ciudad.skydescriptionlong.toLowerCase() === "tormentas" && (
-                                        <FontAwesomeIcon
-                                            icon={faCloudShowersHeavy}
-                                            beat
-                                            className="ml-2 text-gray-600"
-                                        />
-                                    )}
-                                    {ciudad.skydescriptionlong.toLowerCase() ===
-                                        "tormentas dispersas" && (
-                                            <FontAwesomeIcon
-                                                icon={faCloudRain}
-                                                beat
-                                                className="ml-2 text-gray-600"
-                                            />
-                                        )}
-                                    {ciudad.skydescriptionlong.toLowerCase() ===
-                                        "aguaceros" && (
-                                            <FontAwesomeIcon
-                                                icon={faCloudRain}
-                                                beat
-                                                className="ml-2 text-gray-600"
-                                            />
-                                        )}
-                                    {ciudad.skydescriptionlong.toLowerCase() ===
-                                        "tormentas aisladas" && (
-                                            <FontAwesomeIcon
-                                                icon={faCloudRain}
-                                                beat
-                                                className="ml-2 text-gray-600"
-                                            />
-                                        )}
-                                </p>
-                            </div>
-                        );
-                    }
-                    return null;
-                })}
+                                        {ciudad.skydescriptionlong.toLowerCase() ===
+                                            "tormentas dispersas" && (
+                                                <FontAwesomeIcon
+                                                    icon={faCloudRain}
+                                                    beat
+                                                    className="ml-2 text-gray-600"
+                                                />
+                                            )}
+                                        {ciudad.skydescriptionlong.toLowerCase() ===
+                                            "aguaceros" && (
+                                                <FontAwesomeIcon
+                                                    icon={faCloudRain}
+                                                    beat
+                                                    className="ml-2 text-gray-600"
+                                                />
+                                            )}
+                                        {ciudad.skydescriptionlong.toLowerCase() ===
+                                            "tormentas aisladas" && (
+                                                <FontAwesomeIcon
+                                                    icon={faCloudRain}
+                                                    beat
+                                                    className="ml-2 text-gray-600"
+                                                />
+                                            )}
+                                    </p>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })
+                ) : (
+                    // Mensaje para los estados que no tienen datos
+                    <p>No hay datos disponibles para el estado seleccionado.</p>
+                )}
+                {/* Mensaje de error */}
+                {error && (
+                    <div className="text-red-600">
+                        Error al cargar los datos: {error.message}
+                    </div>
+                )}
             </div>
         </div>
     );
