@@ -14,13 +14,13 @@ function NavBar() {
               <img src={coco} alt="Profile" className="w-full h-full object-cover" />
             </div>
             <div className="flex items-center mb-4">
-              <FontAwesomeIcon icon={faHome} style={{color: 'yellow'}} size="lg" />
+              <FontAwesomeIcon icon={faHome} style={{color: 'white'}} size="lg" />
               <Link to="/">
                 <h3 className="text-white ml-6 hover:text-gray-300 text-xl font-bold">Inicio</h3>
               </Link>
             </div>
             <div className="flex items-center mt-4">
-              <FontAwesomeIcon icon={faSun} faSun spin style={{ color: 'yellow' }} size="lg"/>
+              <FontAwesomeIcon icon={faSun} faSun spin style={{ color: 'white' }} size="lg"/>
               <Link to="/weather-update">
                 <h2 className="text-white ml-6 hover:text-gray-300 text-xl font-bold">Weather</h2>
               </Link>
