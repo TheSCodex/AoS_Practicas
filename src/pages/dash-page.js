@@ -1,5 +1,6 @@
 import React from 'react'
 import NavBar from '../components/nav-bar';
+import CancunWeatherCard from '../components/cancunWeather';
 
 function DashPage() {
   return (
@@ -8,9 +9,8 @@ function DashPage() {
         <div>
           <NavBar />
         </div>
-        <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 h-screen w-screen flex flex-col justify-center items-center text-white">
-          <h1 className="text-5xl font-extrabold mb-4">Hola</h1>
-          <h2 className="text-3xl font-semibold">Mundo!</h2>
+        <div className="bg-slate-300 h-screen overflow-hidden w-screen  grid grid-cols-4">
+          <CancunWeatherCard />
         </div>
       </div>
     </>
